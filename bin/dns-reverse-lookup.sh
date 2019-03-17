@@ -30,6 +30,11 @@ for target in $( cat "${1}" ); do
 	for dns in $( cat "${2}" ); do
 		echo "\$ host -R 1 -W 1 -t PTR ${target} ${dns}"
 		echo "\$ host -R 1 -W 1 -t PTR ${target} ${dns}" >> "${3}"
-		host -R 1 -W 1 -t PTR "${target}" "${dns}" | grep 'in-addr.arpa' >> "${3}"
+		if PTR="$( host -R 1 -W 1 -t PTR "${target}" "${dns}" | grep 'in-addr.arpa' )"; then
+			addr="$( echo "${PTR}" | sed 's/in-addr.*$//g' | tac -s. | xargs | sed 's/\.$//g' )"
+			name="$( echo "${PTR}" | awk '{print $NF}' | sed 's/\.$//g' )"
+			echo "${addr} ${name}"
+			echo "${addr} ${name}" >> "${3}"
+		fi
 	done
 done
