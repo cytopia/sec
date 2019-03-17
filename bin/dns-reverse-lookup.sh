@@ -28,8 +28,8 @@ fi
 
 for target in $( cat "${1}" ); do
 	for dns in $( cat "${2}" ); do
-		echo "\$ host -a -R 1 -W 1 ${target} ${dns}"
-		echo "\$ host -a -R 1 -W 1 ${target} ${dns}" >> "${3}"
-		host -a -R 1 -W 1 "${target}" "${dns}" >> "${3}"
+		echo "\$ host -R 1 -W 1 -t PTR ${target} ${dns}"
+		echo "\$ host -R 1 -W 1 -t PTR ${target} ${dns}" >> "${3}"
+		host -R 1 -W 1 -t PTR "${target}" "${dns}" | grep 'in-addr.arpa' >> "${3}"
 	done
 done
