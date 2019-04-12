@@ -80,3 +80,12 @@ dns-reverse-lookup.sh \
 # Create list of IP/DNS entries
 grep PTR probe-dns-reverse.txt | cut -d' ' -f6,7 | sort -uV > hosts-all-dns.txt
 ```
+
+
+## OS discovery
+
+### nmap
+```bash
+# Very fuzzy OS scan guess
+nmap -n -Pn -p 21,22,23,25,80,110,139,443,445 -O --osscan-guess --fuzzy 10.11.1.1-254 -oG os.txt
+```
